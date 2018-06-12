@@ -1,7 +1,5 @@
 # sentiment_api
-Sentiment analysis REST API using Django and Keras
-
-Implements a Bidirectional LSTM that utilises word and character embeddings to classify sentiment as positive or negative.
+Implements a Bidirectional LSTM that utilises word and character embeddings to classify sentiment as positive or negative. Exposes a trained model via a REST API using Django. 
 
 Getting Setup
 -------------
