@@ -1,85 +1,44 @@
 
 
 
-
-
-
-class Vocabulary(object):
-	""" Maps tokens to ints """
-
-	def __init__(self, max_vocab_size=None, lowercase=True, unk_token=True, specials=('<pad>',)):
-		self._max_vocab_size = max_vocab_size
-		self._lowercase = lowercase
-		self._unk_token = unk_token
-		self._token2id = {token: i for i, token in enumerate(specials)}
-		self._id2token = list(specials)
-		self._token_count = Counter()
-
-	def __len__(self):
-		return len(self._token2id)
-
-	def add_token(self, token):
-		token = self.process_token(token)
-		self._token_count.update([token])
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def load_dataset(file_path):
+	""" 
+	Load training dataset 
+
+	Example:
+	--------
+	from models.utils import load_dataset
+
+	labels, sentences = load_dataset("data/training.txt")
+	"""
+	sentences, labels = [], [] 
+	words, tags = [], []
+	with open(file_path) as f:
+		for i,line in enumerate(f):
+			## Remove any trailing characters 
+			line = line.rstrip()
+
+			## Split on tab
+			label, sentence = line.split("\t")
+			
+			## Store and return
+			sentences.append(sentence)
+			labels.append(label)
+
+	return (labels, sentences)			
+
+
+## TODO: Consider class to wrap embeddings and handle logic
+def filter_embeddings(embeddings, vocab, dim):
+	if not isinstance(embeddings, dict):
+		return
+	_embeddings = np.zeros([len(vocab), dim])
+	for word in vocab:
+		if word in embeddings:
+			word_idx = vocab[word]
+			_embeddings[word_idx] = embeddings[word]
+
+	return _embeddings
 
 
 

@@ -35,8 +35,7 @@ class BaseModel(object):
 		with open(file_path) as f:
 			params = json.load(f)
 
-	# def __getattr__(self, name):
-	# 	return getattr(self.model, name)
+
 
 
 
