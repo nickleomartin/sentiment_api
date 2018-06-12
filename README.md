@@ -1,10 +1,12 @@
 # sentiment_api
-Sentiment analysis REST API using Django and Keras
+Implements a Bidirectional LSTM that utilises word and character embeddings to classify sentiment as positive or negative. Exposes a trained model via a REST API using Django. 
 
 Getting Setup
 -------------
 Clone the repo:
-```git clone git@github.com:NickLeoMartin/sentiment_api.git```
+```
+git clone git@github.com:NickLeoMartin/sentiment_api.git
+```
 
 Head into the repo and create and activate a virtual environment:
 ```
@@ -17,9 +19,9 @@ Install the packages used:
 pip install -r requirements.txt
 ```
 
-Running Experiments
--------------------
-Run the random baseline experiments:
+Running The Repo Locally:
+-------------------------
+Access the frontend locally:
 ```
 ./manage.py runserver 
 ```
