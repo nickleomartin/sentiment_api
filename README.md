@@ -33,11 +33,11 @@ To-Do
 - [x] Ajax call to API endpoint
 - [x] BaseModel class
 - [x] Bidirectional LSTM with word and character embeddings
-- [ ] Downloading script for short-text sentiment data
-- [x] Dataset wrapper
-- [ ] Preprocessing dataset
+- [x] Vocabulary builder
+- [x] DocIdTransformer
 - [ ] Model training and storage
 - [ ] Local loading and prediction through API endpoint
+- [ ] Downloading script for short-text sentiment data
 - [ ] Dockerize project
 - [ ] Deploy on server
 
