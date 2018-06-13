@@ -1,8 +1,6 @@
 # sentiment_api
 Implements a Bidirectional LSTM that utilises word and character embeddings to classify sentiment as positive or negative. Exposes a trained model via a REST API using Django. 
 
-[!image](https://cdn-images-1.medium.com/max/1600/1*GRQ91HNASB7MAJPTTlVvfw.jpeg)
-
 Getting Setup
 -------------
 Clone the repo:
