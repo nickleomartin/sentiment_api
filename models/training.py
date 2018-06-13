@@ -11,18 +11,24 @@ class TrainModel(object):
 	from models.models import BiLSTM
 	from models.training import TrainModel
 	
-	## Initilze model
+	X = ['This is a document', 'This is another document!', "And this a third..."]
+	Y = [str(1),str(0),str(1)]
 
-	## Pass to training class
+	N_W_DIM = 100
+	N_CH_DIM = 100
+	model = BiLSTM(n_labels=len(Y), word_vocab_size=N_W_DIM,char_vocab_size=N_CH_DIM)
+	model.construct()
 
-	## Save model weights and params
-
+	tm = TrainModel(model=model, preprocessor=doc_id_transformer)
+	tm.train(X,Y)
 	"""
-	def __init__(self, model, preprocessor=None):
+	def __init__(self, model, preprocessor, optimizer="adam"):
 		self._model = model
+		self._loss = model._loss
 		self._preprocessor = preprocessor
+		self._optimizer = optimizer
 
-	def data_generator(self, X, Y, batch_size, shuffle, preprocessor, batches_per_epoch):
+	def data_generator(self, X, Y, batch_size, shuffle, batches_per_epoch):
 		""" Return batch generator of X and y """ 
 		data_size = len(X)
 		while True:
@@ -37,27 +43,35 @@ class TrainModel(object):
 				start_index = batch_num * batch_size
 				end_index = min((batch_num + 1) * batch_size, data_size)
 				x_batch = [X[j] for j in indices[start_index:end_index]]
-				y_batch = [Y[j] for j in indices[start_index:end_index]]
-				yield preprocessor.transform(x_batch, y_batch)
+				y_batch = [Y[j].astype('int32') for j in indices[start_index:end_index]]
 
-	def batch_iterator(self, X, Y, batch_size=1, shuffle=True, preprocessor=None):
+				print("Batch: ", x_batch, len(y_batch))
+				yield self._preprocessor.transform(x_batch, y_batch)
+
+	def batch_iterator(self, X, Y, batch_size, shuffle):
 		""" Return batch iterator """
-		batches_per_epoch = int(len(X) - 1)/ batch_size + 1
-		X_generator = self.data_generator(X, Y, batch_size, shuffle, preprocessor, batches_per_epoch)
+		batches_per_epoch = int(int(len(X) - 1)/ batch_size) + 1
+		print("Batches per epoch: %s"%batches_per_epoch)
+		X_generator = self.data_generator(X, Y, batch_size, shuffle, batches_per_epoch)
 		return batches_per_epoch, X_generator
 
-	def train(self, x_train, y_train, epochs=1, batch_size=64, verbose=1,
+	def train(self, x_train, y_train, epochs=5, batch_size=64, verbose=1,
 				callbacks=None, shuffle=True):
 		""" Create batch generator and train the model """
 		## Get training generator
-		training_data_steps, training_data_generator = batch_iterator(x_train, y_train, )
+		training_data_steps, training_data_generator = self.batch_iterator(x_train, y_train, batch_size, shuffle)
+
+		print("training_data_steps: ", training_data_steps)
+
+		## Compile the model
+		self._model.model.compile(loss=self._loss, optimizer=self._optimizer, metrics=["accuracy"])
 
 		## Train the model
-		self._model.fit_generator(generator=training_data_generator,
-									steps_per_epoch=training_data_steps,
-									epochs=epochs,
-									callbacks=callbacks,
-									verbose=verbose)
+		self._model.model.fit_generator(generator=training_data_generator,
+										steps_per_epoch=2,#training_data_steps,
+										epochs=epochs,
+										callbacks=callbacks,
+										verbose=verbose)
 
 
 

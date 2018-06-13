@@ -36,6 +36,7 @@ class VocabularyBuilder(object):
 		self._training = training
 		self._word_count = Counter()
 		self._char_count = Counter()
+		self._max_sequence_len = 0
 
 	def process_document(self, document):
 		""" Sentence tokenization of document """
@@ -47,6 +48,10 @@ class VocabularyBuilder(object):
 			words = nltk.word_tokenize(sentence.lower())
 		else:
 			words = nltk.word_tokenize(sentence)
+
+		## Increment max sequence length
+		if len(words) > self._max_sequence_len:
+			self._max_sequence_len = len(words)
 
 		## Update word counter if training 
 		if self._training:
@@ -134,9 +139,9 @@ class DocIdTransformer(BaseEstimator, TransformerMixin):
 	
 	X = ['This is a document', 'This is another document!', "And this a third..."]
 	doc_id_transformer = DocIdTransformer()
-	X_word_feat, X_char_feat, doc_lengths = doc_id_transformer.fit_transform(X)
+	X_word_ids, X_char_ids, doc_lengths = doc_id_transformer.fit_transform(X)
 	"""
-	def __init__(self, lower=True, normalize_num=True, user_char=True, initial_vocab=None):
+	def __init__(self, lower=True, normalize_num=True, user_char=False, initial_vocab=None):
 		self._normalize_num = normalize_num
 		self._use_char = user_char
 		self._vocab_builder = VocabularyBuilder(lowercase=lower)
@@ -149,19 +154,25 @@ class DocIdTransformer(BaseEstimator, TransformerMixin):
 		self._vocab_builder.build(X)
 		return self
 
-	def transform(self, X):
+	def transform(self, X, Y=None):
 		""" Convert documents to document ids """
 		w_ids = [self._vocab_builder.document_to_word_ids(doc) for doc in X]
-		doc_lengths = np.array([len(doc) for doc in X], dtype='int32')
-		w_ids = pad_sequences(w_ids, padding='post')
+		# doc_lengths = np.array([len(doc) for doc in X], dtype='int32')
+		w_ids = pad_sequences(w_ids, maxlen=self._vocab_builder._max_sequence_len, padding='post')
 
-		if self._use_char:
-			ch_ids = [[self._vocab_builder.document_to_char_ids(w) for w in doc] for doc in X]
-			ch_ids = utils.pad_nested_sequence(ch_ids)
-			features = [w_ids, ch_ids, doc_lengths]
-		else:
-			features = [w_ids, doc_lengths]
-		return features
+		# if self._use_char:
+		# 	ch_ids = [[self._vocab_builder.document_to_char_ids(w) for w in doc] for doc in X]
+		# 	ch_ids = utils.pad_nested_sequence(ch_ids)
+		# 	# features = [w_ids, ch_ids, doc_lengths]
+		# else:
+		# 	features = w_ids #features = [w_ids, doc_lengths]
+		features = w_ids
+
+		print("transform batch x: ", features)
+		# print("transform batch y: ", Y)
+		return features, [Y]
+		# return features.reshape(features.shape[0],1,features.shape[1]), [Y]
+
 
 	def fit_transform(self, X):
 		""" Return document-id matrix given documents """
