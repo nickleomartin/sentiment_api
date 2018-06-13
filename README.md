@@ -46,5 +46,6 @@ V1:
 - [ ] Deploy on server
 
 V2:
+- [ ] Asynchronous prediction with Celery
 - [ ] Character embeddings
 - [ ] Multi-task learning for entities and sentiment
