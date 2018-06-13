@@ -34,7 +34,7 @@ To-Do
 - [x] BaseModel class
 - [x] Bidirectional LSTM with word and character embeddings
 - [ ] Downloading script for short-text sentiment data
-- [ ] Dataset wrapper
+- [x] Dataset wrapper
 - [ ] Preprocessing dataset
 - [ ] Model training and storage
 - [ ] Local loading and prediction through API endpoint
