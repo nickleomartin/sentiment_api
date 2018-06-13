@@ -18,9 +18,9 @@ class BiLSTM(BaseModel):
 	## TODO: Add documentation
 
 	"""
-	def __init__(self, n_labels, word_vocab_size, max_word_seq_len, word_embedding_dim=100, 
-								word_lstm_size=100, fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, 
-								embeddings=None, loss = 'binary_crossentropy'):
+	def __init__(self, n_labels, word_vocab_size, max_word_seq_len, word_embedding_dim=100, word_lstm_size=100, 
+								fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
+								loss = 'binary_crossentropy'):
 		super(BiLSTM).__init__()
 		self._n_labels = n_labels
 		self._word_vocab_size = word_vocab_size
@@ -64,7 +64,7 @@ class BiLSTM(BaseModel):
 		h = Flatten()(h)
 		for fc_layers in range(self._fc_n_layers):
 			h = Dense(self._fc_dim, activation=self._fc_activation)(h)
-		y_pred = Dense(self._n_labels, activation="sigmoid")(h)
+		y_pred = Dense(self._n_labels, activation="softmax")(h)
 		self.model = Model(inputs=[word_ids], outputs=y_pred)
 
 	def __repr__(self):

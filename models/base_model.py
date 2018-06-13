@@ -31,8 +31,8 @@ class BaseModel(object):
 		""" Instantiate and load previous model """
 		params = cls.load_params(params_file)
 		self = cls(**params)
-		self.build()
-		self.load_weights(weights_file)
+		self.construct()
+		self.model.load_weights(weights_file)
 		return self 
 
 	@classmethod

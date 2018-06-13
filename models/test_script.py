@@ -5,7 +5,7 @@ from models.models import BiLSTM
 from models.training import TrainModel
 
 ## Dataset
-Y, X = load_dataset("data/training.txt")
+X, Y = load_dataset("data/training.txt")
 
 ## Index and transform to sequences
 doc_id_transformer = DocIdTransformer()
@@ -22,6 +22,6 @@ model = BiLSTM(n_labels=2, max_word_seq_len=max_word_seq_len, word_vocab_size=N_
 model.construct()
 
 tm = TrainModel(model=model, preprocessor=doc_id_transformer)
-tm.train(X,Y,batch_size=64, epochs=100)
-# tm.save()
+tm.train(X, Y, batch_size=64, epochs=100)
+
 

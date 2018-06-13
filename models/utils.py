@@ -24,7 +24,7 @@ def load_dataset(file_path):
 			## Store and return
 			sentences.append(sentence)
 			labels.append(label)
-	return (labels, sentences)			
+	return (sentences, labels)			
 
 
 ## TODO: Consider class to wrap embeddings and handle logic

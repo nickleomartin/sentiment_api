@@ -105,3 +105,4 @@ venv.bak/
 
 data/*
 static/*
+trained_models/*

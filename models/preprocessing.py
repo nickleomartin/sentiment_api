@@ -26,9 +26,8 @@ class VocabularyBuilder(object):
 	dw = VocabularyBuilder()
 	dw.build(documents)
 	"""
-	def __init__(self, max_vocab_size=10000, lowercase=True, unk_token=True, specials=('<pad>',),
+	def __init__(self, lowercase=True, unk_token=True, specials=('<pad>',),
 					 training=True):
-		self._max_vocab_size = max_vocab_size
 		self._lowercase = lowercase
 		self._unk_token = unk_token
 		self._token2id = {token: i for i, token in enumerate(specials)}
@@ -37,7 +36,6 @@ class VocabularyBuilder(object):
 		self._word_count = Counter()
 		self._char_count = Counter()
 		self._max_word_sequence_len = 0
-		self._max_char_sequence_len = 0
 
 	def process_document(self, document):
 		""" Sentence tokenization of document """
@@ -65,9 +63,6 @@ class VocabularyBuilder(object):
 		if self._training:
 			chars = [l for l in word]
 			self._char_count.update(chars)
-
-			if len(chars) > self._max_char_sequence_len:
-				self._max_char_sequence_len = len(chars)
 
 	def construct_vocab_and_reverse_vocab(self):
 		""" Construct token-to-id dict and id-to-token list """
@@ -144,7 +139,7 @@ class DocIdTransformer(BaseEstimator, TransformerMixin):
 	
 	X = ['This is a document', 'This is another document!', "And this a third..."]
 	doc_id_transformer = DocIdTransformer()
-	X_word_ids, X_char_ids, doc_lengths = doc_id_transformer.fit_transform(X)
+	features, Y = doc_id_transformer.fit_transform(X) 
 	"""
 	def __init__(self, lower=True, normalize_num=True, user_char=True, initial_vocab=None):
 		self._normalize_num = normalize_num

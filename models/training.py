@@ -11,8 +11,8 @@ class TrainModel(object):
 	from models.models import BiLSTM
 	from models.training import TrainModel
 	
-	X = ['This is a document', 'This is another document!', "And this a third..."]
-	Y = [str(1),str(0),str(1)]
+	X = ['This is a document', 'This is another document!', "And this a third..."]*100
+	Y = [1,0,1]*100
 
 	## TODO: Add documentation
 
