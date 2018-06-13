@@ -14,7 +14,7 @@ class DatasetWrapper(object):
 	dw.add_documents(documents)
 	dw.build()
 	"""
-	def __init__(self, max_vocab_size=100000, lowercase=True, unk_token=True, specials=('<pad>',)):
+	def __init__(self, max_vocab_size=10000, lowercase=True, unk_token=True, specials=('<pad>',)):
 		self._max_vocab_size = max_vocab_size
 		self._lowercase = lowercase
 		self._unk_token = unk_token
@@ -82,5 +82,6 @@ class DatasetWrapper(object):
 	@property
 	def reverse_vocab(self):
 		return self._id2token
+
 
 

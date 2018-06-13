@@ -6,10 +6,10 @@ from django.utils.decorators import method_decorator
 import json
 
 
-## Auxillary functions
+## Auxillary function
 def load_model():
 	print("model loaded")
-	model = None
+	model = None ## TODO: Change in production
 	return model
 
 
@@ -26,9 +26,15 @@ class PredictSentimentView(View):
 		json_object = json.loads(request.body.decode("utf-8"))
 		text = json_object['input']
 		print(text)
+
+		## TODO: Add model logic
+
+		## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
+
+
 		return JsonResponse({"text": text, "sentiment_score": 0.9, "response": "Successful", "status": 200})
 
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
-		""" Handle CSRF """
+		""" Handle Cross-Site Request Forgery """
 		return View.dispatch(self, request, *args, **kwargs)
