@@ -57,8 +57,7 @@ def filter_embeddings(embeddings, vocab, embedding_dim):
 	return _embeddings
 
 
-## TODO: Add function to load Google vectors 
-
+## TODO: Add function to load Google vectors and FasText embeddings
 def load_glove(file_path):
 	""" Loads Glove vectors into np.array """
 	word_vect_dict = {}
@@ -71,5 +70,31 @@ def load_glove(file_path):
 	return word_vect_dict
 
 
+def normalize_number(text):
+	""" Convert numbers to 0 """
+	return re.sub(r'[0-9０１２３４５６７８９]', r'0', text)
 
+
+def pad_nested_sequence(sequences, dtype='int32'):
+	""" 
+	Pad nested sequences to the same length 
+	
+	Example:
+	--------
+	from models.utils import pad_nested_sequence
+
+	sequences = [[[1,2,3,4], [1,2]], [[1,2,3,4,5,6,6], [1,2,3,4],[1,2]]]
+	pad_nested_sequence(seqs)
+	"""
+	max_sent_len = 0
+	max_word_len = 0
+	for sentence in sequences:
+		max_sent_len = max(len(sentence), max_sent_len)
+		for word in sentence:
+			max_word_len = max(len(word), max_word_len)
+	x = np.zeros((len(sequences), max_sent_len, max_word_len)).astype(dtype)
+	for i, sentence in enumerate(sequences):
+		for j, word in enumerate(sentence):
+			x[i, j, :len(word)] = word
+	return x
 
