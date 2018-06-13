@@ -14,13 +14,8 @@ class TrainModel(object):
 	X = ['This is a document', 'This is another document!', "And this a third..."]
 	Y = [str(1),str(0),str(1)]
 
-	N_W_DIM = 100
-	N_CH_DIM = 100
-	model = BiLSTM(n_labels=len(Y), word_vocab_size=N_W_DIM,char_vocab_size=N_CH_DIM)
-	model.construct()
+	## TODO: Add documentation
 
-	tm = TrainModel(model=model, preprocessor=doc_id_transformer)
-	tm.train(X,Y)
 	"""
 	def __init__(self, model, preprocessor, optimizer="adam"):
 		self._model = model
@@ -44,8 +39,6 @@ class TrainModel(object):
 				end_index = min((batch_num + 1) * batch_size, data_size)
 				x_batch = [X[j] for j in indices[start_index:end_index]]
 				y_batch = [Y[j].astype('int32') for j in indices[start_index:end_index]]
-
-				print("Batch: ", x_batch, len(y_batch))
 				yield self._preprocessor.transform(x_batch, y_batch)
 
 	def batch_iterator(self, X, Y, batch_size, shuffle):
@@ -60,8 +53,6 @@ class TrainModel(object):
 		""" Create batch generator and train the model """
 		## Get training generator
 		training_data_steps, training_data_generator = self.batch_iterator(x_train, y_train, batch_size, shuffle)
-
-		print("training_data_steps: ", training_data_steps)
 
 		## Compile the model
 		self._model.model.compile(loss=self._loss, optimizer=self._optimizer, metrics=["accuracy"])
