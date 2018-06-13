@@ -37,9 +37,9 @@ V1:
 - [x] Vocabulary builder
 - [x] DocIdTransformer
 - [x] Model training
+- [x] Model storage
+- [x] Model wrapper
 - [ ] Model prediction 
-- [ ] Model storage
-- [ ] Model wrapper
 - [ ] Local loading and prediction through API endpoint
 - [ ] Downloading script for short-text sentiment data
 - [ ] Dockerize project
