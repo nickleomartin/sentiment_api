@@ -33,7 +33,7 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 You can access the API directly:
 ```
-curl --header "Content-Type: application/json" -request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
+curl --header "Content-Type: application/json" --request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
 {"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
 ```
 Loading The Trained Model:
