@@ -47,8 +47,10 @@ V1:
 - [x] Model prediction 
 - [x] Local loading and prediction through API endpoint
 - [x] Downloading of weights from git-lfs
+- [x] Run demo from scratch
+- [ ] Input validation, error handling, documentation etc.
 - [ ] Dockerize project
-- [ ] Deploy on server
+- [ ] Deploy demo on server
 
 V2:
 - [ ] Hyperparameter tuning, training summary statistic, more comprehensive dataset 
