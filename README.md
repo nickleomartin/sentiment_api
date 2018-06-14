@@ -40,13 +40,13 @@ V1:
 - [x] Model storage
 - [x] Model wrapper
 - [x] Model prediction 
-- [ ] Local loading and prediction through API endpoint
-- [ ] Downloading script for short-text sentiment data
+- [x] Local loading and prediction through API endpoint
 - [ ] Downloading of weights from git-lfs
 - [ ] Dockerize project
 - [ ] Deploy on server
 
 V2:
 - [ ] Asynchronous prediction with Celery
+- [ ] Downloading script for short-text sentiment data
 - [ ] Character embeddings
 - [ ] Multi-task learning for entities and sentiment
