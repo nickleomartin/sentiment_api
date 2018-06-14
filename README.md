@@ -46,6 +46,7 @@ V1:
 - [ ] Deploy on server
 
 V2:
+- [ ] Hyperparameter tuning, training summary statistic, more comprehensive dataset 
 - [ ] Asynchronous prediction with Celery
 - [ ] Downloading script for short-text sentiment data
 - [ ] Character embeddings
