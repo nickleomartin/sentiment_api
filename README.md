@@ -39,9 +39,10 @@ V1:
 - [x] Model training
 - [x] Model storage
 - [x] Model wrapper
-- [ ] Model prediction 
+- [x] Model prediction 
 - [ ] Local loading and prediction through API endpoint
 - [ ] Downloading script for short-text sentiment data
+- [ ] Downloading of weights from git-lfs
 - [ ] Dockerize project
 - [ ] Deploy on server
 
