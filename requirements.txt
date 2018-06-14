@@ -17,6 +17,7 @@ Keras==2.2.0
 Keras-Applications==1.0.2
 Keras-Preprocessing==1.0.1
 Markdown==2.6.11
+nltk==3.3
 numpy==1.14.4
 parso==0.2.1
 pexpect==4.6.0
@@ -27,6 +28,7 @@ ptyprocess==0.5.2
 Pygments==2.2.0
 pytz==2018.4
 PyYAML==3.12
+scikit-learn==0.19.1
 scipy==1.1.0
 simplegeneric==0.8.1
 six==1.11.0
