@@ -12,9 +12,9 @@ from models.wrapper import SentimentAnalysisModel
 ## Auxillary function
 def load_model():
 	## TODO: read in from config
-	weights_file = "trained_models/2018_06_13_23_weights"
-	params_file = "trained_models/2018_06_13_23_params"
-	preprocessor_file = "trained_models/2018_06_13_23_preprocessor" 
+	weights_file = "trained_models/2018_06_14_10.weights"
+	params_file = "trained_models/2018_06_14_10.params"
+	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file, params_file, preprocessor_file)
 	graph = tf.get_default_graph()
 	return sentiment_model, graph

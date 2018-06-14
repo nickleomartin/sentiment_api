@@ -22,9 +22,9 @@ class SentimentAnalysisModel(object):
 
 	## Load and predict
 	from models.wrapper import SentimentAnalysisModel
-	weights_file = "trained_models/2018_06_13_23_weights"
-	params_file = "trained_models/2018_06_13_23_params"
-	preprocessor_file = "trained_models/2018_06_13_23_preprocessor" 
+	weights_file = "trained_models/2018_06_14_10.weights"
+	params_file = "trained_models/2018_06_14_10.params"
+	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
 	"""
 	def __init__(self, dataset_path="data/training.txt", word_embedding_dim=100, word_lstm_size=100,
@@ -98,9 +98,9 @@ class SentimentAnalysisModel(object):
 
 		if self._save_model:
 			date_time = datetime.datetime.today().strftime('%Y_%m_%d_%H')
-			weights_file =  os.path.join(self._trained_model_dir,date_time+"_weights")
-			params_file = os.path.join(self._trained_model_dir,date_time+"_params")
-			preprocessor_file = os.path.join(self._trained_model_dir,date_time+"_preprocessor")
+			weights_file =  os.path.join(self._trained_model_dir,date_time+".weights")
+			params_file = os.path.join(self._trained_model_dir,date_time+".params")
+			preprocessor_file = os.path.join(self._trained_model_dir,date_time+".preprocessor")
 			self.save(weights_file, params_file, preprocessor_file)
 			print("weights, params and preprocessor saved")
 
