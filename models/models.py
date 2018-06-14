@@ -9,7 +9,7 @@ from models.base_model import BaseModel
 
 class BiLSTM(BaseModel):
 	""" 
-	Word and Character embeddings + Bidirectional LSTM for sentiment prediction 
+	Word embeddings + Bidirectional LSTM for sentiment prediction 
 	
 	Example:
 	--------

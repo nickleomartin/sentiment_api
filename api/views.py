@@ -11,16 +11,17 @@ from models.wrapper import SentimentAnalysisModel
 
 ## Auxillary function
 def load_model():
+	""" Load pre-trained sentiment classifier """
 	## TODO: read in from config
 	weights_file = "trained_models/2018_06_14_10.weights"
 	params_file = "trained_models/2018_06_14_10.params"
 	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file, params_file, preprocessor_file)
-	graph = tf.get_default_graph()
-	return sentiment_model, graph
+	return sentiment_model
+
+MODEL = load_model()
 
 
-MODEL, graph = load_model()
 
 class PredictSentimentView(View):
 	""" API endpoint to predict sentiment of text """
@@ -35,14 +36,13 @@ class PredictSentimentView(View):
 			json_object = json.loads(request.body.decode("utf-8"))
 			text = json_object['input']
 
-			## Inference on loaded model
-			global graph
-			with graph.as_default():
+			if text!="":
+				## Inference on loaded model
 				sent_class = MODEL.predict([text])
-
-			## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
-
-			return JsonResponse({"text": text, "sentiment_score": sent_class, "response": "Successful", "status": 200})
+				## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
+				return JsonResponse({"text": text, "sentiment_score": sent_class, "response": "Successful", "status": 200})
+			else:
+				return JsonResponse({"text": "Please enter a comment", "sentiment_score": None, "response": "Successful", "status": 200})
 		except:
 			return JsonResponse({"text": text, "sentiment_score": "Error", "response": "Successful", "status": 400})
 

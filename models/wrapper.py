@@ -1,6 +1,7 @@
 import os
 import datetime
 from keras.utils import to_categorical
+import tensorflow as tf
 
 from models.utils import load_dataset
 from models.preprocessing import DocIdTransformer
@@ -20,12 +21,15 @@ class SentimentAnalysisModel(object):
 	sentiment_model = SentimentAnalysisModel(save_model=True)
 	sentiment_model.fit()
 
-	## Load and predict
+	## Load
 	from models.wrapper import SentimentAnalysisModel
 	weights_file = "trained_models/2018_06_14_10.weights"
 	params_file = "trained_models/2018_06_14_10.params"
 	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
+
+	## Predict 
+	sentiment_model.predict(["this is really bad documentation"])
 	"""
 	def __init__(self, dataset_path="data/training.txt", word_embedding_dim=100, word_lstm_size=100,
 				 fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
@@ -105,13 +109,17 @@ class SentimentAnalysisModel(object):
 			print("weights, params and preprocessor saved")
 
 	def predict(self, sentence):
+		""" Predict sentiment class given list of sentences """
 		## TODO: validate input is text
 		X_features, _ = self._doc_id_transformer.transform(sentence)
-		y = self.model.model.predict(X_features)
+
+		with self._graph.as_default():
+			y = self.model.model.predict(X_features)
+
+		## Take max confidence to be class label
+		## TODO: consider low confidence scores as Neural
 		labels = y.argmax(axis=-1)
 		return ["Positive" if l==1 else "Negative" for l in labels]
-
-
 
 	def score(self, X_test, Y_test):
 		pass
@@ -127,6 +135,7 @@ class SentimentAnalysisModel(object):
 		self = cls()
 		self._doc_id_transformer = DocIdTransformer.load(preprocessor_file)
 		self.model = BiLSTM.load(weights_file, params_file)
+		self._graph = tf.get_default_graph()
 		return self
 
 
