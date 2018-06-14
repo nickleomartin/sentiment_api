@@ -22,10 +22,14 @@ pip install -r requirements.txt
 
 Running The Repo Locally:
 -------------------------
-Access the frontend locally:
+To see the demo run Django lightweight development sever which is available on http://127.0.0.1:8000/ :
 ```
 ./manage.py runserver 
 ```
+
+The demo was trained on single-sentence book reviews, avaliable [here](https://www.kaggle.com/c/si650winter11/data). 
+
+![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
 To-Do
 -----
