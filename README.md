@@ -6,6 +6,7 @@ Getting Setup
 Clone the repo:
 ```
 git clone git@github.com:NickLeoMartin/sentiment_api.git
+cd sentiment_api/
 ```
 
 Head into the repo and create and activate a virtual environment:
