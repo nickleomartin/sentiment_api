@@ -55,6 +55,17 @@ sentiment_model.predict(["This documentation is terrible"])
 ['Negative']
 ```
 
+Train Your Own Model:
+---------------------
+Simply specify the path to a tab separated text file (see example [here](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/data/training.txt)) and the training parameters, Then run:
+```python
+from models.wrapper import SentimentAnalysisModel	
+sentiment_model = SentimentAnalysisModel(
+    dataset_path="data/training.txt", save_model=True, word_embedding_dim=100,   word_lstm_size=100,fc_dim=100,
+    fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, loss = 'binary_crossentropy', optimizer="adam",
+    shuffle=True, batch_size=64, epochs=4)
+sentiment_model.fit()
+```
 
 Where To Go From Here:
 ----------------------
