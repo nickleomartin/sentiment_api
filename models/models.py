@@ -19,8 +19,8 @@ class BiLSTM(BaseModel):
 
 	"""
 	def __init__(self, n_labels, word_vocab_size, max_word_seq_len, word_embedding_dim=100, word_lstm_size=100, 
-								fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
-								loss = 'binary_crossentropy'):
+			fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
+			loss = 'binary_crossentropy'):
 		super(BiLSTM).__init__()
 		self._n_labels = n_labels
 		self._word_vocab_size = word_vocab_size
@@ -46,16 +46,16 @@ class BiLSTM(BaseModel):
 		## Create embedding layer if not provided
 		if self._embeddings is None:
 			word_embeddings = Embedding(input_dim=self._word_vocab_size,
-																	output_dim=self._word_embedding_dim,
-																	mask_zero=False, ## TODO: Flatten does not support masking?
-																	input_length=self._max_word_seq_len)(word_ids)
+									output_dim=self._word_embedding_dim,
+									mask_zero=False, ## TODO: Flatten does not support masking?
+									input_length=self._max_word_seq_len)(word_ids)
 
 		## Load pre-trained embeddings 
 		else:
 			word_embeddings = Embedding(input_dim=self._embeddings.shape[0],
-																	output_dim=self._embeddings.shape[1],
-																	mask_zero=False, ## TODO: Flatten does not support masking?
-																	weights=[self._embeddings])(word_ids)
+									output_dim=self._embeddings.shape[1],
+									mask_zero=False, ## TODO: Flatten does not support masking?
+									weights=[self._embeddings])(word_ids)
 
 		## Build Bidirectional LSTM layer with Fully Connected layers on top
 		word_embeddings = Dropout(self._dropout)(word_embeddings)
