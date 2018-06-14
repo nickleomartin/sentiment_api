@@ -55,6 +55,11 @@ sentiment_model.predict(["This documentation is terrible"])
 ['Negative']
 ```
 
+
+Where To Go From Here:
+----------------------
+The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps.
+
 To-Do
 -----
 V1:
@@ -75,6 +80,7 @@ V1:
 - [ ] Input validation, error handling, documentation etc.
 - [ ] Dockerize project
 - [ ] Deploy demo on server
+- [ ] Jupyter Notebook to demonstrate model reasoning i.e. negation, OOV terms etc.
 
 V2:
 - [ ] Use Glove embeddings
