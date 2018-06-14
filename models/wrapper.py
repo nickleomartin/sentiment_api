@@ -106,7 +106,6 @@ class SentimentAnalysisModel(object):
 
 	def predict(self, sentence):
 		## TODO: validate input is text
-
 		X_features, _ = self._doc_id_transformer.transform(sentence)
 		y = self.model.model.predict(X_features)
 		labels = y.argmax(axis=-1)
