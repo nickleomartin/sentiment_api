@@ -1,5 +1,5 @@
 # sentiment_api
-A Bidirectional LSTM + MLP model to classify sentiment as positive or negative. Exposes the trained model via a REST API using Django. Currently trained word vectors from scratch. 
+A Bidirectional LSTM + MLP model to classify single sentences as positive or negative. Exposes the trained model via a REST API using Django. Currently trained word vectors from scratch. 
 
 Getting Setup
 -------------
@@ -31,6 +31,35 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
+You can access the API directly:
+```
+curl --header "Content-Type: application/json" -request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
+{"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
+```
+Loading The Trained Model:
+--------------------------
+Pre-trained model weights, parameters and text preprocessor are housed in trained_models/ . To load the pre-trained model:
+```python
+from models.wrapper import SentimentAnalysisModel
+
+weights_file = "trained_models/2018_06_14_10.weights"
+params_file = "trained_models/2018_06_14_10.params"
+preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
+
+sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
+```
+
+To predict on a new sentence:
+```python
+sentiment_model.predict(["This documentation is terrible"])
+['Negative']
+```
+
+
+Where To Go From Here:
+----------------------
+The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps.
+
 To-Do
 -----
 V1:
@@ -51,6 +80,7 @@ V1:
 - [ ] Input validation, error handling, documentation etc.
 - [ ] Dockerize project
 - [ ] Deploy demo on server
+- [ ] Jupyter Notebook to demonstrate model reasoning i.e. negation, OOV terms etc.
 
 V2:
 - [ ] Use Glove embeddings
