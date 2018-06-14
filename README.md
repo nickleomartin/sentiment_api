@@ -41,7 +41,7 @@ V1:
 - [x] Model wrapper
 - [x] Model prediction 
 - [x] Local loading and prediction through API endpoint
-- [ ] Downloading of weights from git-lfs
+- [x] Downloading of weights from git-lfs
 - [ ] Dockerize project
 - [ ] Deploy on server
 
