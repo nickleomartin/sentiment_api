@@ -35,16 +35,16 @@ class PredictSentimentView(View):
 		try:
 			json_object = json.loads(request.body.decode("utf-8"))
 			text = json_object['input']
-
-			if text!="":
-				## Inference on loaded model
-				sent_class = MODEL.predict([text])
-				## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
-				return JsonResponse({"text": text, "sentiment_score": sent_class, "response": "Successful", "status": 200})
-			else:
-				return JsonResponse({"text": "Please enter a comment", "sentiment_score": None, "response": "Successful", "status": 200})
 		except:
-			return JsonResponse({"text": text, "sentiment_score": "Error", "response": "Successful", "status": 400})
+			return JsonResponse({"response": "json object does not contain 'input'", "status": 400})
+
+		if text!="":
+			## Inference on loaded model
+			sent_class = MODEL.predict([text])
+			## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
+			return JsonResponse({"text": text, "sentiment_score": sent_class, "response": "Successful", "status": 200})
+		else:
+			return JsonResponse({"text": "Please enter a comment", "sentiment_score": None, "response": "Successful", "status": 200})
 
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
