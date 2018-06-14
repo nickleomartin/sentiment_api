@@ -1,5 +1,5 @@
 # sentiment_api
-Implements a Bidirectional LSTM that utilises word (and character embeddings later) to classify sentiment as positive or negative. Exposes a trained model via a REST API using Django. 
+A Bidirectional LSTM + MLP model to classify sentiment as positive or negative. Exposes the trained model via a REST API using Django. Currently trained word vectors from scratch. 
 
 Getting Setup
 -------------
@@ -53,6 +53,7 @@ V1:
 - [ ] Deploy demo on server
 
 V2:
+- [ ] Use Glove embeddings
 - [ ] Hyperparameter tuning, training summary statistic, more comprehensive dataset 
 - [ ] Asynchronous prediction with Celery
 - [ ] Downloading script for short-text sentiment data
