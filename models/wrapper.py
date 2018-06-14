@@ -25,7 +25,7 @@ class SentimentAnalysisModel(object):
 	weights_file = "trained_models/2018_06_13_23_weights"
 	params_file = "trained_models/2018_06_13_23_params"
 	preprocessor_file = "trained_models/2018_06_13_23_preprocessor" 
-	SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
+	sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
 	"""
 	def __init__(self, dataset_path="data/training.txt", word_embedding_dim=100, word_lstm_size=100,
 				 fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
@@ -105,8 +105,13 @@ class SentimentAnalysisModel(object):
 			print("weights, params and preprocessor saved")
 
 	def predict(self, sentence):
+		## TODO: validate input is text
+
 		X_features, _ = self._doc_id_transformer.transform(sentence)
-		self.model.predict(X_features)
+		y = self.model.model.predict(X_features)
+		labels = y.argmax(axis=-1)
+		return ["Positive" if l==1 else "Negative" for l in labels]
+
 
 
 	def score(self, X_test, Y_test):
