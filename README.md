@@ -31,6 +31,11 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
+You can access the API directly:
+```
+curl --header "Content-Type: application/json" -request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
+{"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
+```
 Loading The Trained Model:
 --------------------------
 Pre-trained model weights, parameters and text preprocessor are housed in trained_models/ . To load the pre-trained model:
