@@ -31,6 +31,25 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
+Loading The Trained Model:
+--------------------------
+Pre-trained model weights, parameters and text preprocessor are housed in trained_models/ . To load the pre-trained model:
+```python
+from models.wrapper import SentimentAnalysisModel
+
+weights_file = "trained_models/2018_06_14_10.weights"
+params_file = "trained_models/2018_06_14_10.params"
+preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
+
+sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
+```
+
+To predict on a new sentence:
+```python
+sentiment_model.predict(["This documentation is terrible"])
+['Negative']
+```
+
 To-Do
 -----
 V1:
