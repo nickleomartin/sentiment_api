@@ -33,7 +33,7 @@ class SentimentAnalysisModel(object):
 	"""
 	def __init__(self, dataset_path="data/training.txt", word_embedding_dim=100, word_lstm_size=100,
 				 fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
-				 loss = 'binary_crossentropy', optimizer="adam", shuffle=True, batch_size=64, epochs=80,
+				 loss = 'binary_crossentropy', optimizer="adam", shuffle=True, batch_size=64, epochs=4,
 				 verbose=1, callbacks = None, save_model=False, trained_model_dir = "trained_models/"):
 		self._dataset_path = dataset_path
 		self._word_embedding_dim = word_embedding_dim

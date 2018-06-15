@@ -60,7 +60,7 @@ class TrainModel(object):
 		## Train the model
 		self._model.model.fit_generator(
 						generator=training_data_generator,
-						steps_per_epoch=2,#training_data_steps,
+						steps_per_epoch=training_data_steps,
 						epochs=epochs,
 						callbacks=callbacks,
 						verbose=verbose)
