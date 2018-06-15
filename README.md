@@ -42,9 +42,9 @@ Pre-trained model weights, parameters and text preprocessor are housed in traine
 ```python
 from models.wrapper import SentimentAnalysisModel
 
-weights_file = "trained_models/2018_06_14_10.weights"
-params_file = "trained_models/2018_06_14_10.params"
-preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
+weights_file = "trained_models/2018_06_15_10_weights.h5"
+params_file = "trained_models/2018_06_15_10_params.json"
+preprocessor_file = "trained_models/2018_06_15_10_preprocessor.pkl" 
 
 sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
 ```
@@ -61,7 +61,7 @@ Simply specify the path to a tab separated text file (see example [here](/data/t
 ```python
 from models.wrapper import SentimentAnalysisModel	
 sentiment_model = SentimentAnalysisModel(
-    dataset_path="data/training.txt", save_model=True, word_embedding_dim=100,   word_lstm_size=100,fc_dim=100,
+    dataset_path="data/training.txt", model_name="bilstm", save_model=True, word_embedding_dim=100,   word_lstm_size=100,fc_dim=100,
     fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, loss = 'binary_crossentropy', optimizer="adam",
     shuffle=True, batch_size=64, epochs=4)
 sentiment_model.fit()
