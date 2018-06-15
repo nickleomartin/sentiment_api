@@ -1,6 +1,7 @@
 import numpy as np
 import yaml
-
+import datetime
+import os
 
 def load_config(config_path='config.yml'):
 	""" Load config file with model details """
@@ -12,7 +13,13 @@ def load_config(config_path='config.yml'):
 		print(e)
 		return None
 
-
+def generate_model_file_names(trained_model_dir, model_name):
+	""" Crude model versioning """
+	date_time = datetime.datetime.today().strftime('%Y_%m_%d_%H')
+	weights_file =  os.path.join(trained_model_dir,date_time+"_weights.h5")
+	params_file = os.path.join(trained_model_dir,date_time+"_params.json")
+	preprocessor_file = os.path.join(trained_model_dir,date_time+"_preprocessor.pkl")
+	return weights_file, params_file, preprocessor_file
 
 def load_dataset(file_path):
 	""" 

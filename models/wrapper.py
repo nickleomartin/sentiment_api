@@ -3,7 +3,7 @@ import datetime
 from keras.utils import to_categorical
 import tensorflow as tf
 
-from models.utils import load_dataset
+from models.utils import load_dataset, generate_model_file_names
 from models.preprocessing import DocIdTransformer
 from models.models import BiLSTM
 from models.training import TrainModel
@@ -23,19 +23,20 @@ class SentimentAnalysisModel(object):
 
 	## Load
 	from models.wrapper import SentimentAnalysisModel
-	weights_file = "trained_models/2018_06_14_10.weights"
-	params_file = "trained_models/2018_06_14_10.params"
-	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
+	weights_file = "trained_models/2018_06_15_10_weights.h5"
+	params_file = "trained_models/2018_06_15_10_params.json"
+	preprocessor_file = "trained_models/2018_06_15_10_preprocessor.pkl" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file,params_file,preprocessor_file)
 
 	## Predict 
 	sentiment_model.predict(["this is really bad documentation"])
 	"""
-	def __init__(self, dataset_path="data/training.txt", word_embedding_dim=100, word_lstm_size=100,
+	def __init__(self, dataset_path="data/training.txt", model_name='bilstm', word_embedding_dim=100, word_lstm_size=100,
 				 fc_dim=100, fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, 
 				 loss = 'binary_crossentropy', optimizer="adam", shuffle=True, batch_size=64, epochs=4,
 				 verbose=1, callbacks = None, save_model=False, trained_model_dir = "trained_models/"):
 		self._dataset_path = dataset_path
+		self._model_name = model_name
 		self._word_embedding_dim = word_embedding_dim
 		self._word_lstm_size = word_lstm_size
 		self._fc_dim = fc_dim
@@ -53,6 +54,12 @@ class SentimentAnalysisModel(object):
 		self._save_model = save_model
 		self._trained_model_dir = trained_model_dir 
 		self._doc_id_transformer = DocIdTransformer()
+		self.validate_parameters()
+
+	def validate_parameters(self):
+		""" Check that parameters are valid """
+		self._valid_models = ['bilstm']
+		assert self._model_name.lower() in self._valid_models, "InvalidModelName: %s. Model can be %s"%(self._model_name, self._valid_models)
 
 	def get_dataset(self):
 		""" Load dataset internally for now """
@@ -101,10 +108,7 @@ class SentimentAnalysisModel(object):
 		self.model = tm._model
 
 		if self._save_model:
-			date_time = datetime.datetime.today().strftime('%Y_%m_%d_%H')
-			weights_file =  os.path.join(self._trained_model_dir,date_time+".weights")
-			params_file = os.path.join(self._trained_model_dir,date_time+".params")
-			preprocessor_file = os.path.join(self._trained_model_dir,date_time+".preprocessor")
+			weights_file, params_file, preprocessor_file = generate_model_file_names(self._trained_model_dir, self._model_name)
 			self.save(weights_file, params_file, preprocessor_file)
 			print("weights, params and preprocessor saved")
 
@@ -117,7 +121,7 @@ class SentimentAnalysisModel(object):
 			y = self.model.model.predict(X_features)
 
 		## Take max confidence to be class label
-		## TODO: consider low confidence scores as Neural
+		## TODO: consider low confidence scores as Neutral
 		labels = y.argmax(axis=-1)
 		return ["Positive" if l==1 else "Negative" for l in labels]
 
