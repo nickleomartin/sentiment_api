@@ -33,7 +33,7 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 You can access the API directly:
 ```
-curl --header "Content-Type: application/json" -request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
+curl --header "Content-Type: application/json" --request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
 {"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
 ```
 Loading The Trained Model:
@@ -55,6 +55,17 @@ sentiment_model.predict(["This documentation is terrible"])
 ['Negative']
 ```
 
+Train Your Own Model:
+---------------------
+Simply specify the path to a tab separated text file (see example [here](/data/training.txt)) and the training parameters, Then run:
+```python
+from models.wrapper import SentimentAnalysisModel	
+sentiment_model = SentimentAnalysisModel(
+    dataset_path="data/training.txt", save_model=True, word_embedding_dim=100,   word_lstm_size=100,fc_dim=100,
+    fc_activation='tanh', fc_n_layers=2, dropout=0.5, embeddings=None, loss = 'binary_crossentropy', optimizer="adam",
+    shuffle=True, batch_size=64, epochs=4)
+sentiment_model.fit()
+```
 
 Where To Go From Here:
 ----------------------
