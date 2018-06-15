@@ -13,9 +13,9 @@ from models.wrapper import SentimentAnalysisModel
 def load_model():
 	""" Load pre-trained sentiment classifier """
 	## TODO: read in from config
-	weights_file = "trained_models/2018_06_14_10.weights"
-	params_file = "trained_models/2018_06_14_10.params"
-	preprocessor_file = "trained_models/2018_06_14_10.preprocessor" 
+	weights_file = "trained_models/2018_06_15_10_weights.h5"
+	params_file = "trained_models/2018_06_15_10_params.json"
+	preprocessor_file = "trained_models/2018_06_15_10_preprocessor.pkl" 
 	sentiment_model = SentimentAnalysisModel.load(weights_file, params_file, preprocessor_file)
 	return sentiment_model
 
