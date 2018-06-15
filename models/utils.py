@@ -1,4 +1,17 @@
 import numpy as np
+import yaml
+
+
+def load_config(config_path='config.yml'):
+	""" Load config file with model details """
+	try:
+		with open(config_path, 'r') as config_file:
+			config = yaml.load(config_file)
+		return config
+	except yaml.YAMLError as e:
+		print(e)
+		return None
+
 
 
 def load_dataset(file_path):
