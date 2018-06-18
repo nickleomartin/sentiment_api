@@ -1,7 +1,7 @@
 # sentiment_api
-There are not many reference implementations of deploying deep learning models within the Django framework. This repo is working towards a reuseable codebase for rapid deployment and scaling of Keras models.
+There are not many reference implementations of deploying deep learning models within the Django REST framework.
 
-Currently contains a Bidirectional LSTM + MLP model to classify single sentences as positive or negative. 
+This repo currently contains a Bidirectional LSTM + MLP model to classify single sentences as positive or negative.
 
 Getting Setup
 -------------
@@ -33,7 +33,7 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
-You can access the API directly:
+You can access the API directly, via http://127.0.0.1:8000/api/get_sentiment/:
 ```
 curl --header "Content-Type: application/json" --request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
 {"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
