@@ -103,6 +103,7 @@ V2: Scaleable API
 - [ ] Update DockerFile
 - [ ] Deploy demo 
 - [ ] Stress test
+- [ ] Testing Suite
 
 Extensions: Model Improvements + Code Resusability
 - [ ] Use Glove embeddings
