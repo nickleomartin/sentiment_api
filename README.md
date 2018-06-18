@@ -1,5 +1,7 @@
 # sentiment_api
-A Bidirectional LSTM + MLP model to classify single sentences as positive or negative. Exposes the trained model via a REST API using Django. Currently trained word vectors from scratch. 
+There are not many reference implementations of deploying deep learning models within the Django framework. This repo is working towards a reuseable codebase for rapid deployment and scaling of Keras models.
+
+Currently contains a Bidirectional LSTM + MLP model to classify single sentences as positive or negative. 
 
 Getting Setup
 -------------
@@ -69,7 +71,7 @@ sentiment_model.fit()
 
 Where To Go From Here:
 ----------------------
-The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps.
+The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps. API will not scale i.e. add message queuing, a model server and containerize.  
 
 To-Do
 -----
@@ -109,4 +111,4 @@ Extensions: Model Improvements + Code Resusability
 - [ ] Downloading script for short-text sentiment data
 - [ ] Character-level embeddings (Raw or FastText)
 - [ ] Multi-task learning for entities and sentiment
-- [ ] Separate models and API
+- [ ] Separate models and API 
