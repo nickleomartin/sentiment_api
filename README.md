@@ -109,3 +109,4 @@ Extensions: Model Improvements + Code Resusability
 - [ ] Downloading script for short-text sentiment data
 - [ ] Character-level embeddings (Raw or FastText)
 - [ ] Multi-task learning for entities and sentiment
+- [ ] Separate models and API
