@@ -4,24 +4,17 @@ from django.http.response import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+import redis
+import uuid
 import tensorflow as tf
 
+from sentiment_api import settings
 from models.wrapper import SentimentAnalysisModel
 
+## TODO: SORT OUT ERROR HANDLING LOGIC
 
-## Auxillary function
-def load_model():
-	""" Load pre-trained sentiment classifier """
-	## TODO: read in from config
-	weights_file = "trained_models/2018_06_15_10_weights.h5"
-	params_file = "trained_models/2018_06_15_10_params.json"
-	preprocessor_file = "trained_models/2018_06_15_10_preprocessor.pkl" 
-	sentiment_model = SentimentAnalysisModel.load(weights_file, params_file, preprocessor_file)
-	return sentiment_model
-
-MODEL = load_model()
-
-
+## Get redis connection
+db = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
 
 class PredictSentimentView(View):
 	""" API endpoint to predict sentiment of text """
@@ -32,17 +25,43 @@ class PredictSentimentView(View):
 
 	def post(self, request, *args, **kwargs):
 		""" POST requests take in text and return sentiment"""
+		data = {"success": False, "text":""}
+
 		try:
 			json_object = json.loads(request.body.decode("utf-8"))
 			text = json_object['input']
+			data["text"] = text
 		except:
 			return JsonResponse({"response": "json object does not contain 'input'", "status": 400})
 
 		if text!="":
-			## Inference on loaded model
-			sent_class = MODEL.predict([text])
-			## TODO: Asynchronous Celery call to process model prediction? Not needed now. 
-			return JsonResponse({"text": text, "sentiment_score": sent_class, "response": "Successful", "status": 200})
+
+			## Generate UUID for request
+			request_id = str(uuid.uuid4())
+			payload = {"id": request_id, "text": text}
+
+			## Add to Redis queue
+			db.rpush(settings.REDIS_REQUEST_QUEUE, json.dumps(payload))
+
+			while True:
+
+				## Poll for id of request text
+				output = db.get(request_id)
+
+				if output is not None:
+					## Load dict with json
+					output = json.loads(output.decode('utf-8'))
+
+					## Set context dict
+					data["sentiment_score"] = output["sentiment_score"]
+					data["success"] = True
+					data["status"] = 200
+
+					## Delete instance
+					db.delete(request_id)
+
+					## Return context object
+					return JsonResponse(data)
 		else:
 			return JsonResponse({"text": "Please enter a comment", "sentiment_score": None, "response": "Successful", "status": 200})
 
@@ -50,3 +69,6 @@ class PredictSentimentView(View):
 	def dispatch(self, request, *args, **kwargs):
 		""" Handle Cross-Site Request Forgery """
 		return View.dispatch(self, request, *args, **kwargs)
+
+
+

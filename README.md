@@ -22,6 +22,22 @@ Install the packages used:
 pip install -r requirements.txt
 ```
 
+Install [Redis]. If in a linux environment then run: 
+```
+sudo apt-install redis-server
+```
+
+Fire up the server:
+```
+redis-server
+```
+
+Check that Redis is up:
+```
+redis-cli ping
+```
+
+
 Running The Repo Locally:
 -------------------------
 To see the demo run Django lightweight development sever which is available on http://127.0.0.1:8000/ :

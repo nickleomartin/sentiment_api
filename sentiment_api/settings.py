@@ -82,6 +82,25 @@ DATABASES = {
     }
 }
 
+# Redis Caching 
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = "6379"
+REDIS_DB = "0"
+REDIS_REQUEST_QUEUE = "request_queue"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://"+REDIS_HOST+":"+REDIS_PORT+"/"  , ## TODO: Change in production!
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+
+
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
