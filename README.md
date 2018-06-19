@@ -1,5 +1,7 @@
 # sentiment_api
-A Bidirectional LSTM + MLP model to classify single sentences as positive or negative. Exposes the trained model via a REST API using Django. Currently trained word vectors from scratch. 
+There are not many reference implementations of deploying deep learning models within the Django REST framework.
+
+This repo currently contains a Bidirectional LSTM + MLP model to classify single sentences as positive or negative.
 
 Getting Setup
 -------------
@@ -31,7 +33,7 @@ The demo was trained on single-sentence book reviews, avaliable [here](https://w
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/sentiment_api/master/sentiment_demo.png)
 
-You can access the API directly:
+You can access the API directly, via http://127.0.0.1:8000/api/get_sentiment/:
 ```
 curl --header "Content-Type: application/json" --request POST --data '{"input":"This documentation is terrible"}' http://127.0.0.1:8000/api/get_sentiment/
 {"response": "Successful", "status": 200, "text": "This documentation is terrible", "sentiment_score": ["Negative"]}
@@ -69,11 +71,11 @@ sentiment_model.fit()
 
 Where To Go From Here:
 ----------------------
-The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps.
+The model is not correctly tuned and overfits to the training data. It can't handle out-of-vocabulary words as well as negation i.e. "not good". Hyperparameter tuning, character-level embeddings and a more diverse training set are logical next steps. API will not scale i.e. add message queuing, a model server and containerize.  
 
 To-Do
 -----
-V1:
+V1: Model pipeline + REST API
 - [x] Simple Boostrap interface
 - [x] Basic Class-based API endpoint
 - [x] Ajax call to API endpoint
@@ -91,13 +93,23 @@ V1:
 - [ ] YML config file 
 - [ ] Input validation, error handling, documentation etc.
 - [ ] Dockerize project
-- [ ] Deploy demo on server
+- [ ] Deploy demo
+- [ ] Stress test
 - [ ] Jupyter Notebook to demonstrate model reasoning i.e. negation, OOV terms etc.
 
-V2:
+V2: Scaleable API
+- [ ] Message Queuing: Redis
+- [ ] Apache Server to load model and poll (prevent loading a new model for every view)
+- [ ] Update DockerFile
+- [ ] Deploy demo 
+- [ ] Stress test
+- [ ] Testing Suite
+
+Extensions: Model Improvements + Code Resusability
 - [ ] Use Glove embeddings
 - [ ] Hyperparameter tuning, training summary statistic, more comprehensive dataset 
 - [ ] Asynchronous prediction with Celery
 - [ ] Downloading script for short-text sentiment data
-- [ ] Character embeddings
+- [ ] Character-level embeddings (Raw or FastText)
 - [ ] Multi-task learning for entities and sentiment
+- [ ] Separate models and API 
