@@ -6,10 +6,8 @@ from django.utils.decorators import method_decorator
 import json
 import redis
 import uuid
-import tensorflow as tf
 
 from sentiment_api import settings
-from models.wrapper import SentimentAnalysisModel
 
 ## TODO: SORT OUT ERROR HANDLING LOGIC
 
