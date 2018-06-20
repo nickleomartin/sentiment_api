@@ -38,11 +38,16 @@ redis-cli ping
 ```
 
 
-Running The Repo Locally:
+Running The Demo Locally:
 -------------------------
 To see the demo run Django lightweight development sever which is available on http://127.0.0.1:8000/ :
 ```
 ./manage.py runserver 
+```
+
+In another terminal, run the model (later this will be handled by a separate server):
+```
+python -m model_server.py
 ```
 
 The demo was trained on single-sentence book reviews, avaliable [here](https://www.kaggle.com/c/si650winter11/data). 
@@ -114,7 +119,7 @@ V1: Model pipeline + REST API
 - [ ] Jupyter Notebook to demonstrate model reasoning i.e. negation, OOV terms etc.
 
 V2: Scaleable API
-- [ ] Message Queuing: Redis
+- [x] Message Queuing: Redis
 - [ ] Apache Server to load model and poll (prevent loading a new model for every view)
 - [ ] Update DockerFile
 - [ ] Deploy demo 

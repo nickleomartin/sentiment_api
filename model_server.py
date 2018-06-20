@@ -30,7 +30,7 @@ def run_model_server():
 	while True:
 
 		## Poll for requests	
-		queue = db.lrange(settings.REDIS_REQUEST_QUEUE, 1, BATCH_SIZE)
+		queue = db.lrange(settings.REDIS_REQUEST_QUEUE, 1, settings.REDIS_BATCH_SIZE)
 
 		image_ids = []
 		batch = []
